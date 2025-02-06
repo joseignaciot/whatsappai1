@@ -1,0 +1,77 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    ports:
+      - "5679:5678"  # Usamos el puerto 5679 en el host en vez del 5678
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=admin123
+      - GENERIC_TIMEZONE=Europe/Madrid
+      - N8N_HOST=localhost
+    volumes:
+      - n8n_data:/home/node/.n8n
+    restart: always
+
+  deepseek:
+    build:
+      context: ./deepseek
+      dockerfile: Dockerfile
+    container_name: deepseek
+    ports:
+      - "11435:11434"  # Mapeamos al puerto 11435 en el host
+    environment:
+      - MODEL=deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B
+    volumes:
+      - deepseek_data:/data
+    restart: always
+
+  python-api:
+    build:
+      context: ./python-api
+      dockerfile: Dockerfile
+    container_name: python-api
+    ports:
+      - "6000:5000"  # Mapeamos el puerto interno 5000 al 6000 en el host
+    restart: always
+
+  admin-panel:
+    build:
+      context: ./admin-panel
+      dockerfile: Dockerfile
+    container_name: admin-panel
+    ports:
+      - "8085:8080"  # Mapeamos el puerto interno 8080 al 8085 en el host
+    volumes:
+      - admin_data:/app/data
+    restart: always
+
+  nocodb:
+    image: nocodb/nocodb:latest
+    container_name: nocodb
+    ports:
+      - "8090:8080"  # Mapeamos el puerto interno 8080 de NocoDB al 8090 en el host
+    volumes:
+      - nocodb_data:/usr/app/data
+    restart: always
+
+  init-nocodb:
+    build:
+      context: ./init-nocodb
+      dockerfile: Dockerfile
+    container_name: init-nocodb
+    # Si tu script no necesita exponer un puerto, puedes omitir la sección ports.
+    environment:
+      - NOCODB_URL=http://nocodb:8080
+      - PROJECT_NAME=HistorialChat
+      - TABLE_NAME=conversaciones
+    depends_on:
+      - nocodb
+    restart: "no"
+
+volumes:
+  n8n_data:
+  deepseek_data:
+  admin_data:
+  nocodb_data:

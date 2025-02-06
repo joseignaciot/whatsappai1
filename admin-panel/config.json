@@ -1,0 +1,8 @@
+{
+    "model_prompt": "Eres un asistente de IA que solo debe responder usando la información contenida en los documentos internos. Responde de manera precisa y basada en evidencia.",
+    "finetuning_instructions": "Para finetuning, asegúrate de proporcionar ejemplos claros y consistentes. Cada entrada debe incluir 'prompt' y 'completion'.",
+    "webscraping_config": {
+      "user_agent": "Mozilla/5.0 (compatible; MyScraperBot/1.0; +https://santiagotours.org)"
+    }
+  }
+  
