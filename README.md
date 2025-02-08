@@ -20,3 +20,46 @@ Para construir las imágenes y levantar todos los servicios en contenedores, eje
 
 ```bash
 docker compose up --build
+
+
+Base de datos:
+Creo una con phpmyadmin que se llama weather_db y despues ejecuto esto para crear la tabla:
+
+CREATE TABLE IF NOT EXISTS weather_data (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  `date` DATETIME,
+  coord_lon DECIMAL(9,6),
+  coord_lat DECIMAL(9,6),
+  weather_id INT,
+  weather_main VARCHAR(20),
+  weather_description VARCHAR(100),
+  weather_icon VARCHAR(5),
+  base VARCHAR(10),
+  main_temp DECIMAL(5,2),
+  main_feels_like DECIMAL(5,2),
+  main_temp_min DECIMAL(5,2),
+  main_temp_max DECIMAL(5,2),
+  main_pressure SMALLINT,
+  main_humidity TINYINT,
+  main_sea_level SMALLINT,
+  main_grnd_level SMALLINT,
+  visibility INT,
+  wind_speed DECIMAL(4,2),
+  wind_deg SMALLINT,
+  wind_gust DECIMAL(4,2),
+  clouds_all TINYINT,
+  dt INT,
+  sys_country CHAR(2),
+  sys_sunrise INT,
+  sys_sunset INT,
+  timezone INT,
+  timezone_id INT,
+  name VARCHAR(50),
+  cod INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+Despues he creado un usuario con estos datos:
+usuario123
+clave123
